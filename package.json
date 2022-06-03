@@ -1,0 +1,34 @@
+{
+  "name": "vonage-demo",
+  "version": "1.0.0",
+  "description": "Quick demo to showcase vonage-2fa api",
+  "main": "app.js",
+  "scripts": {
+    "sequelize:demo:migrate": "sequelize --options-path ./sequelize-demo --env demo db:migrate",
+    "sequelize:demo:migrate:undo": "sequelize --options-path ./sequelize-demo --env demo db:migrate:undo",
+    "sequelize:demo:seed:all": "sequelize --options-path ./sequelize-demo --env demo db:seed:all",
+    "start": "npm run sequelize:demo:migrate && nodemon app"
+  },
+  "keywords": [
+    "Vonage",
+    "demo",
+    "2fa"
+  ],
+  "author": "Houssam Yahiaoui",
+  "license": "ISC",
+  "dependencies": {
+    "@vonage/server-sdk": "^2.11.1",
+    "cls-rtracer": "^2.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-jwt": "^7.7.5",
+    "express-rate-limit": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.3",
+    "sequelize": "^4.44.4",
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2"
+  }
+}
