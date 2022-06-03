@@ -1,5 +1,4 @@
 const { Model } = require('sequelize');
-const { JSONB } = require('sequelize/lib/data-types');
 
 module.exports = (sequelize, DataTypes) => {
     class FederatedUser extends Model {
@@ -8,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-        static associate({ }) {
+        static associate() {
             // define association here
         }
     }

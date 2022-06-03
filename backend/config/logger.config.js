@@ -1,7 +1,9 @@
 const { createLogger, format, transports } = require('winston');
 const rTracer = require('cls-rtracer');
 
-const { combine, timestamp, printf, colorize, errors } = format;
+const {
+ combine, timestamp, printf, colorize, errors
+} = format;
 
 const rTracerFormat = printf(({ level, message }) => {
     const rid = rTracer.id();

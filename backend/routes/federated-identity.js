@@ -2,22 +2,18 @@
 const jwt = require('jsonwebtoken');
 const Vonage = require('@vonage/server-sdk');
 
-
 // Config
 const logger = require('../config/logger.config');
 
 // Models
 const parentModels = require('../models');
 
-
 const vonage = new Vonage({
     apiKey: process.env.VONAGE_API_KEY,
     apiSecret: process.env.VONAGE_API_SECRET
 });
 
-
-const createReturnToken = (user, req) =>
-    new Promise((resolve, reject) => {
+const createReturnToken = (user, req) => new Promise((resolve, reject) => {
         const { id, name, picture } = user;
         jwt.sign(
             {
@@ -58,7 +54,7 @@ module.exports.setupFederatedIdentiy = (router) => {
                     name: req.body.name,
                     google_id: req.body.uid,
                     picture: req.body.photo,
-                    email: req.body.email,
+                    email: req.body.email
                 });
                 logger.info(`[${featureName.toUpperCase()}] : request finished`);
                 const token = await createReturnToken(user, req);
@@ -68,35 +64,30 @@ module.exports.setupFederatedIdentiy = (router) => {
                         token
                     });
                 }
-            } else {
-                if(user.phone_number && user.phone_number.verified) {
+            } else if (user.phone_number && user.phone_number.verified) {
                     vonage.verify.request({
                         number: user.phone_number.number.replace('+', ''),
-                        brand: "VonageDemo",
+                        brand: 'VonageDemo',
                         code_length: 6
-                    }, async (err, verificationResult ) => {
-                        if(err) {
+                    }, async (err, verificationResult) => {
+                        if (err) {
                             return res.status(400).json({
                                 err
                             });
-                        } else {
-                            if(verificationResult && verificationResult.request_id) {
-                                console.log(verificationResult)
+                        }
+                            if (verificationResult && verificationResult.request_id) {
                                 logger.info(`[${featureName.toUpperCase()}] : request finished`);
                                 const token = await createReturnToken(user, req);
                                 if (token) {
-                                    res.json({
+                                    return res.json({
                                         success: true,
                                         token,
                                         requestId: verificationResult.request_id
                                     });
                                 }
                             }
-                        }
-                    })    
+                    });
                 }
-            }
-            
         } catch (error) {
             logger.error(error);
             res.status(400).send({
@@ -109,19 +100,18 @@ module.exports.setupFederatedIdentiy = (router) => {
         async (req, res) => {
             const featureName = 'Update phone number';
             logger.info(`[${featureName.toUpperCase()}] : request started`);
-            console.log(req.body.number);
             try {
                 vonage.verify.request({
                     number: req.body.number.replace('+', ''),
-                    brand: "VonageDemo",
+                    brand: 'VonageDemo',
                     code_length: 6
-                }, async(err, verificationResult ) => {
-                    if(err) {
+                }, async (err, verificationResult) => {
+                    if (err) {
                         return res.status(400).json({
                             err
                         });
-                    } else {
-                        if(verificationResult && verificationResult.request_id) {
+                    }
+                        if (verificationResult && verificationResult.request_id) {
                             await parentModels.FederatedUser.update(
                                 {
                                     phone_number: {
@@ -141,8 +131,7 @@ module.exports.setupFederatedIdentiy = (router) => {
                                 requestId: verificationResult.request_id
                             });
                         }
-                    }
-                });                
+                });
             } catch (error) {
                 logger.error(error);
                 res.status(400).send({
@@ -162,19 +151,17 @@ module.exports.setupFederatedIdentiy = (router) => {
                 code: req.body.verificationCode
               }, async (err, result) => {
                 if (err) {
-                  res.status(400).json({ success: false, err })
-                } else {
-                    if(result.status === '0') {
+                  res.status(400).json({ success: false, err });
+                } else if (result.status === '0') {
                         const user = await parentModels.FederatedUser.findOne({
                             id: req.auth.id
                         });
-                        let phone = user.phone_number;
+                        const phone = user.phone_number;
                         phone.verified = true;
                         user.set({ phone_number: phone });
                         await user.save();
                         res.status(200).json({ success: true });
                     }
-                }
             });
         }
     );

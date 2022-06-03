@@ -41,7 +41,7 @@ module.exports.setupExpressServer = async (app, express) => {
             limit: '50mb'
         })
     );
-    app.use(express['static'](path.join(__dirname, '..', 'public')));
+    app.use(express.static(path.join(__dirname, '..', 'public')));
     const allowedOrigins = [/localhost:\d{4}$/];
     const corsConfig = {
         origin: allowedOrigins,

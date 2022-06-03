@@ -7,6 +7,10 @@
     "sequelize:demo:migrate": "sequelize --options-path ./sequelize-demo --env demo db:migrate",
     "sequelize:demo:migrate:undo": "sequelize --options-path ./sequelize-demo --env demo db:migrate:undo",
     "sequelize:demo:seed:all": "sequelize --options-path ./sequelize-demo --env demo db:seed:all",
+    "format:check": "prettier --check  'backend/**/*.js'",
+    "format:write": "prettier --write 'backend/**/*.js'",
+    "lint:check": "eslint '**/*.js'",
+    "lint:fix": "eslint --fix  '**/*.js'",
     "start": "npm run sequelize:demo:migrate && nodemon app"
   },
   "keywords": [
@@ -30,5 +34,16 @@
     "sequelize": "^4.44.4",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-order": "^2.1.4",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.6.2"
   }
 }

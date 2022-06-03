@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const logger = require('../config/logger.config')
+const logger = require('../config/logger.config');
 const databasesConfiguration = require('./databases');
+
 const connections = {};
 const db = {};
 databasesConfiguration.forEach((databaseInfo) => {
