@@ -5,7 +5,8 @@ import { landingExtendedApiSlice } from '../../store/services/landing'
 
 const initialState: LandingState = {
     token: undefined,
-    error: undefined
+    error: undefined,
+    requestId: undefined
 }
 
 const landingSlice = createSlice({
@@ -14,6 +15,10 @@ const landingSlice = createSlice({
     reducers: {
         logout: state => {
             state.token = undefined;
+            state.requestId = undefined;
+        },
+        handlePost2FA: state => {
+            state.requestId = undefined;
         }
     },
     extraReducers(builder) {
@@ -22,11 +27,12 @@ const landingSlice = createSlice({
                 landingExtendedApiSlice.endpoints.login.matchFulfilled,
                 (state, { payload }) => {
                     state.token = payload.token
+                    state.requestId = payload.requestId
                 }
             )
     }
 });
 
-export const { logout } = landingSlice.actions
+export const { logout, handlePost2FA } = landingSlice.actions
 export const landingSelector = (state: any) => state.landing
 export default landingSlice.reducer

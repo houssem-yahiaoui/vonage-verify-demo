@@ -52,6 +52,7 @@ export default function Nav() {
         isClosable: true,
       })  
     }
+    navigateLandingPage();
   }
 
   return (

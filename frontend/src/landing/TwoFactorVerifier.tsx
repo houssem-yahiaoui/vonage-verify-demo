@@ -8,8 +8,11 @@ import { useVerify2FAMutation } from '../store/services/landing'
 
 // router
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { handlePost2FA } from "./state/landingSlice";
 
 export default function TwoFactorVerifier() {
+    const dispatch = useDispatch();
     let [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const toast = useToast();
@@ -30,7 +33,7 @@ export default function TwoFactorVerifier() {
             requestId: searchParams.get('reqId')
         }).unwrap();
         console.log(result);
-        if(result.status === "0") {
+        if(result.success) {
             if(!toast.isActive(toast_auth_id)) {
                 toast({
                   id: toast_auth_id,
@@ -41,6 +44,7 @@ export default function TwoFactorVerifier() {
                   isClosable: true
                 })  
             }
+            dispatch(handlePost2FA());
             navigate('/');
         }
     } 

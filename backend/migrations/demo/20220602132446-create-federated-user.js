@@ -20,7 +20,7 @@ module.exports = {
                 type: DataTypes.STRING
             },
             phone_number: {
-                type: DataTypes.STRING
+                type: DataTypes.JSONB
             },
             created_at: {
                 allowNull: false,

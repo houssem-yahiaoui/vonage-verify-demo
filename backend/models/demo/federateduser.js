@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+const { JSONB } = require('sequelize/lib/data-types');
 
 module.exports = (sequelize, DataTypes) => {
     class FederatedUser extends Model {
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING
             },
             phone_number: {
-                type: DataTypes.STRING
+                type: DataTypes.JSONB
             }
         },
         {

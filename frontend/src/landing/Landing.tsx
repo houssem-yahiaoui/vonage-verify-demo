@@ -38,7 +38,7 @@ export default function Landing() {
   const [phone, setPhone] = useState<E164Number | undefined>()
   const { isOpen, onClose } = useDisclosure();
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  const { token } = useSelector(landingSelector);
+  const { token, requestId } = useSelector(landingSelector);
   const toast = useToast();
   const navigate = useNavigate();
   const userMetadata: any = token ? jwtDecode(token): {};
@@ -51,9 +51,11 @@ export default function Landing() {
     if(!accountConfiguration?.phone_number) {
       // Open modal to add the phone number
       openPhoneModal = !accountConfiguration?.phone_number && !isOpen;
-    } else {
-      // Send request to do the 2fa authentication
     }
+  }
+
+  if(requestId) {
+    navigate(`/two-factor-verification?reqId=${requestId}`);
   }
 
   useEffect(() => {
@@ -182,12 +184,16 @@ export default function Landing() {
                 <Heading fontSize="4xl">
                   Welcome to Your 2FA Demo
                 </Heading>
-                <Text color={'gray.300'} fontWeight="bold">
+                {accountConfiguration?.phone_number ? 
+                <>
+                  <Text color={'gray.300'} fontWeight="bold">
                   In this Demo we exploited <Badge colorScheme={'purple'}>Vonage Verify API</Badge> which let us implement the two factor authentication via mobile phone.
-                </Text>
-                <Text color={'gray.300'} fontWeight="bold">
-                 Hope you enjoyed it :D 
-                </Text>
+                  </Text>
+                  <Text color={'gray.300'} fontWeight="bold">
+                  Hope you enjoyed it :D 
+                  </Text>
+                </>: ""}
+                
               </VStack>
             </>
           )
