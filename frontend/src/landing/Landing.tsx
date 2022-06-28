@@ -118,7 +118,7 @@ export default function Landing() {
                     width={300}
                 />
                 <Heading fontWeight={600} fontSize='5xl' lineHeight={'110%'}>
-                    Welcome to 2FA-Demo
+                    2FA Demo With Vonage Verify API
                 </Heading>
                 <Text color={'gray.500'} fontWeight="bold">
                   2FA is <Badge colorScheme="red" variant="solid">Powerful Vonage API</Badge> used to help you secure your users account
